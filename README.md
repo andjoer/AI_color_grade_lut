@@ -66,3 +66,6 @@ The scope of this repository is
 
 - once the training is finished your model will will be saved and you can download it. This model can be used in the second notebook in order to create the LUT
 
+<p align="center">
+  <img width="717" height="454" src="https://github.com/ajcommercial/AI_color_grade_lut/blob/master/screenshots/training_done.JPG?raw=true">
+</p>
