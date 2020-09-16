@@ -1,0 +1,89 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <form action="/" method="post" enctype="multipart/form-data">
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                 <div class="alert alert-success alert-dismissible" role="alert">
+                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true" onclick="delete_flash(this)">&times;</span>
+                    </button>
+                    {{message}}
+                </div>
+              {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="file-upload">
+
+            <div class="image-upload-wrap">
+                <input class="file-upload-input" type='file' name="image" onchange="readURL(this);" accept="image/*" required />
+                <div class="drag-text">
+                    <h3>Drag and drop a file or select add Image</h3>
+                </div>
+            </div>
+            <div class="file-upload-content">
+                <img class="file-upload-image" src="#" alt="your image" />
+                <div class="image-title-wrap">
+                    <button type="button" onclick="removeUpload()" class="remove-image">Remove <span
+                            class="image-title">Uploaded Image</span></button>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6" style="margin-top:4%;">
+                    <label for="advanced">Advanced mode:</label>
+                    <label class="switch">
+                        <input type="checkbox" name="advanced" id="advanced">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="max_factor">Max factor:</label>
+                    <input type="text" class="form-control" name="max_factor" id="max_factor" placeholder="0.0" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="select_model">Select Model:</label>
+                    <select class="form-control" name="model_name" id="select_model">
+
+                    </select>
+                </div>
+            </div>
+
+            <button class="file-upload-btn" type="submit">Upload</button>
+
+        </div>
+    </form>
+
+    <a href="" id="download" download></a>
+
+
+    <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='assets/upload.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            model_list = JSON.parse({{data[0]|tojson|safe}});
+            cube = JSON.parse({{data[1]|tojson|safe}});
+            var html = '';
+
+            for (i = 0; i< model_list.length; i++) {
+                html +='<option value="' + model_list[i] + '">' + model_list[i] + '</option>';
+            }
+            $("#select_model").html(html);
+
+            if (cube != '') {
+                $("a").attr("href", cube);
+                $('#download')[0].click();
+                $("a").attr("href", "");
+            }
+
+        });
+    </script>
+
+{% endblock %}
+
