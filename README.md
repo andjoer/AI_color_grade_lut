@@ -26,6 +26,8 @@ However it needs to be mentioned that due to the fact, that pix2pix is not inven
 
 That is why I decided to make the network smaller and take 64x64x3 images. The downside of course is that it "sees" less details. But according to my obeservations it still performs well. If we look at a 16x16x16 points LUT, it has 16x16x16x3 = 4096x3 values which is the same as a 64x64x3 = 4096x3 image. However the complexity is higher then in a 8x8x8 points LUT. If you want to experiment with this you need ground truth LUTs. So I added a notebook in the repository that generates the LUTs between your input and ground truth images - "BatchPix2LUT". 
 
+For further experimentation you can use the 128pixel network that processes the images width 128*128 pixels. Maybe you are wondering if it is a good idea to make it asymmetrical so that the network gets more information but produces only the few color samples that are needed to produce the LUT. I have enclosed a notebook for this as well - it works, but you actually don't save much. 
+
 # One model that can generate any look
 
 Although the training times are ok and often not many Epochs are needed, it is a bit suboptimal that you need to prepare the training data for every look. But there is a way to make one model for all looks: If you do it in reverse. 
