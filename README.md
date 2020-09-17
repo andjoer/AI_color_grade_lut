@@ -42,7 +42,7 @@ If you have trained your model to neutralize looks, you need to set reverse = Tr
 
 - In order to generate the training data the idea is not grade input images in order to generate the ground truth. It is better to use frames from movies that are graded as ground truth and to mess them up with random operations in order to generate some fake input. I have added an after effects file that does this in the "generate training data" folder. But this is for sure not the optimum, so please feel motivated to look for better ways in or outside of after effects of manipulating the ground truth. You will see that you need to think about what you are teaching the network. If you have a dark and blueish ground truth and this is your desired result, you should nevertheless not only give the network too bright and warm images because otherwise it will learn to make the images cooler and darker in general - even if they are too dark. 
 
-- If this is setup you need to export an image sequence in jpg format. 
+- If this is setup you need to export an image sequence in jpg format. The amount of training images should be around 1000
 
 - As always when you train an AI model you have to split the images into a train and a test folder. I would say approx. 20% of the images should go into the test folder and the rest should go into the train folder. The test and the train folder need to be in one folder that can have an arbitrary name. But the train and the test folder need to have exactly these names. 
 
