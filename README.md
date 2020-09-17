@@ -1,5 +1,5 @@
 # Creating color lookup tables with AI
-Creating color LUTs with artificial intelligence
+By using this repository you can create LUTs in the .cube format that can be read by most image editing or color grading software.
 
 This repository contains
 
