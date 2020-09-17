@@ -24,6 +24,13 @@ However it needs to be mentioned that due to the fact, that pix2pix is not inven
 
 That is why I decided to make the network smaller and take 64x64x3 images. The downside of course is that it "sees" less details. But according to my obeservations it still performs well. If we look at a 16x16x16 points LUT, it has 16x16x16x3 = 4096x3 values which is the same as a 64x64x3 = 4096x3 image. However the complexity is higher then in a 8x8x8 points LUT. 
 
+# One model that can generate any look
+
+Although the training times are ok and often not many Epochs are needed, it is a bit suboptimal that you need to prepare the training data for every look. But there is a way to make one model for all looks: If you do it in reverse. 
+
+I have already begun to train a model (neutral.h5) that removes any look from the footage. By reversing input and output in the pix2LUT algorithm the result is a LUT that gives the neutralized footage the look. So once you apply the LUT on your (neutralized) footage, it will have the same look. It is important to mention that due to a lack of time I did not train this model well. But feel free to do better: As ground truth you need to take neutral footage, either from your own stock or e.g. TV news. Then you apply random LUTs/presets/gradings in order to generate the input files. With these pairs you can train the network above. 
+
+The downside is the problem that every preset or LUTs have: the LUT is not optimized for your footage. So the LUT is only for the look, but not for the correction. It might be a bit better if you apply the neutralize model also on your input footage in order to correct it to the same neutral basis. However if you have colors in your footage that were not present in the reference footage it might not help. 
 
 # Create training data
 - In order to train the model you need to prepare the training data as it was done in the original pix2pix paper. The model gets trained by showing it the image how it should be color graded (the "ground truth") and the input that should be color graded. These images are combined together beside each other in one image, while the ground truth in on the left and the input is on the right. If you use the network with the reduced input size of 64 pixel, belows sizes would be sufficient. However you may also upload higher resolution images since they get resized in the code. A sample image could be found in the "generate training data" folder.
@@ -49,6 +56,12 @@ That is why I decided to make the network smaller and take 64x64x3 images. The d
 
 - finally the complete folder (above named "example") needs to be zipped. 
 
+# Train the model and generate the LUT
+
+- Upload the training data into the 64pix2pix notebook and start the training
+- Download the model
+- Upload the model and the image that should be trained into the pix2LUT notebook
+- Generate and download the LUT
 # Below is a user guide for people who are absolutly new to using Jupyter notebooks and Google Colab
 
 - go to the Notebook you would like to use (for training 64pix2pix) and open in Colab
