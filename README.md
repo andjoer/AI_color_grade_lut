@@ -22,7 +22,7 @@ The idea behind this color grading approach is to start with something existing,
 
 However it needs to be mentioned that due to the fact, that pix2pix is not invented for this task, it is not the fastest algorithm. The generator is hour-glass shaped and first "interprets" an 256x256x3 pixel image and afterwards generates an image of same dimension. So the generating parts generates at first something way more complex then a LUT. 
 
-That is why I decided to make the network smaller and take 64x64x3 images. The downside of course is that it "sees" less details. But according to my obeservations it still performs well. If we look at a 16x16x16 points LUT, it has 16x16x16x3 = 4096x3 values which is the same as a 64x64x3 = 4096x3 image. However the complexity is higher then in a 8x8x8 points LUT. 
+That is why I decided to make the network smaller and take 64x64x3 images. The downside of course is that it "sees" less details. But according to my obeservations it still performs well. If we look at a 16x16x16 points LUT, it has 16x16x16x3 = 4096x3 values which is the same as a 64x64x3 = 4096x3 image. However the complexity is higher then in a 8x8x8 points LUT. If you want to experiment with this you need ground truth LUTs. So I added a notebook in the repository that generates the LUTs between your input and ground truth images - "BatchPix2LUT". 
 
 # One model that can generate any look
 
@@ -32,6 +32,7 @@ I have already begun to train a model (neutral.h5) that removes any look from th
 
 The downside is the problem that every preset or LUTs have: the LUT is not optimized for your footage. So the LUT is only for the look, but not for the correction. It might be a bit better if you apply the neutralize model also on your input footage in order to correct it to the same neutral basis. However if you have colors in your footage that were not present in the reference footage it might not help. 
 
+If you have trained your model to neutralize looks, you need to set reverse = True in the pix2LUT notebook. (for those who are new to python: True needs to be written with capital "T") 
 # Create training data
 - In order to train the model you need to prepare the training data as it was done in the original pix2pix paper. The model gets trained by showing it the image how it should be color graded (the "ground truth") and the input that should be color graded. These images are combined together beside each other in one image, while the ground truth in on the left and the input is on the right. If you use the network with the reduced input size of 64 pixel, belows sizes would be sufficient. However you may also upload higher resolution images since they get resized in the code. A sample image could be found in the "generate training data" folder.
 
@@ -62,6 +63,7 @@ The downside is the problem that every preset or LUTs have: the LUT is not optim
 - Download the model
 - Upload the model and the image that should be trained into the pix2LUT notebook
 - Generate and download the LUT
+
 # Below is a user guide for people who are absolutly new to using Jupyter notebooks and Google Colab
 
 - go to the Notebook you would like to use (for training 64pix2pix) and open in Colab
@@ -93,3 +95,9 @@ The downside is the problem that every preset or LUTs have: the LUT is not optim
 <p align="center">
   <img width="717" height="454" src="https://github.com/ajcommercial/AI_color_grade_lut/blob/master/screenshots/training_done.JPG?raw=true">
 </p>
+
+- Open the Notebook pix2LUT (like you did with the other notebook)
+- Upload the model and the image you would like to grade (for download procedure see above)
+- Start the program (like above "run all")
+- Wait until you see the generated .cube file in the content folder
+- Download the .cube file and apply it in any program that can apply LUTs (Photoshop, Premiere, Resolve etc.)
