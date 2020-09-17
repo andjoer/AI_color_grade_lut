@@ -14,6 +14,17 @@ The scope of this repository is
 - demonstrate how to use a model that produces low fidelity images (low resolution and artefacts) to get a high fidelity, production ready output
 - enable people who never saw code to experiment and train their own models since the code does not need to be toched
 
+# Algorithm
+
+Color lookup tables are lists of triplets that can be interpreted as n x n x n x 3 matrices, in other words, it contains n^3 coordinates of color values. Through interpolation they represent an function R^3 to R^3 that is mapping intput colors to output colors. That's why it is possible to represent any (primary) colorcorrection with a single LUT file. 
+
+The idea behind this color grading approach is to start with something existing, namely the pix2pix network (originally written by Phillip Isola Jun-Yan Zhu Tinghui Zhou Alexei A. Efros) and adopt it to this task. Indeed the pix2pix algorithms learns pretty fast to grade the footage but has the downside that it is only able to process 256x256 pixels images and is not free of artefacts. By using the basic machine learing algorithm of knn interpolation it is possible to determine the LUT that is needed to correct the input image into the predicted output of the pix2pix network. (Fun Fact: if someone publishes a before/after image he basically publishes the LUT). Due to the interpolation artefacts are compensated and the LUT can be applied to images of any size. 
+
+However it needs to be mentioned that due to the fact, that pix2pix is not invented for this task, it is not the fastest algorithm. The generator is hour-glass shaped and first "interprets" an 256x256x3 pixel image and afterwards generates an image of same dimension. So the generating parts generates at first something way more complex then a LUT. 
+
+That is why I decided to make the network smaller and take 64x64x3 images. The downside of course is that it "sees" less details. But according to my obeservations it still performs well. If we look at a 16x16x16 points LUT, it has 16x16x16x3 = 4096x3 values which is the same as a 64x64x3 = 4096x3 image. However the complexity is higher then in a 8x8x8 points LUT. 
+
+
 # Create training data
 - In order to train the model you need to prepare the training data as it was done in the original pix2pix paper. The model gets trained by showing it the image how it should be color graded (the "ground truth") and the input that should be color graded. These images are combined together beside each other in one image, while the ground truth in on the left and the input is on the right. If you use the network with the reduced input size of 64 pixel, belows sizes would be sufficient. However you may also upload higher resolution images since they get resized in the code. A sample image could be found in the "generate training data" folder.
 
