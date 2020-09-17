@@ -70,7 +70,7 @@ If you have trained your model to neutralize looks, you need to set reverse = Tr
 
 # Below is a user guide for people who are absolutly new to using Jupyter notebooks and Google Colab
 
-- go to the Notebook you would like to use (for training 64pix2pix) and open in Colab
+- go to the Notebook you would like to use (for training 64pix2pix or 128pix2pix) and open in Colab
 
 <p align="center">
   <img width="823" height="476" src="https://github.com/ajcommercial/AI_color_grade_lut/blob/master/screenshots/open_colab.jpg?raw=true">
