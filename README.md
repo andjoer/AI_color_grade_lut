@@ -28,6 +28,10 @@ That is why I decided to make the network smaller and take 64x64x3 images. The d
 
 For further experimentation you can use the 128pixel network that processes the images width 128*128 pixels. Maybe you are wondering if it is a good idea to make it asymmetrical so that the network gets more information but produces only the few color samples that are needed to produce the LUT. I have enclosed a notebook for this as well - it works, but you actually don't save much. 
 
+# Pix2LUT
+
+I have also redone the created a networks that are getting images (256x256 pixels) as input and are returning directly a color LUT (8^3*3; 1D). This is work in progress and experimental. For training use the same images as you would upload to pix2pix or to batch_pix2lut. Just put all LUTs generated with the batch-notebook in the train images and the test images (you don't need to split it, just put all in both folders - not very nice, but it is work in progress) and upload them zipped into the colab. During training instead of output images the notebook displays the reduced mean difference between the generated LUTs and the ground truth LUTs 
+
 # One model that can generate any look
 
 Although the training times are ok and often not many Epochs are needed, it is a bit suboptimal that you need to prepare the training data for every look. But there is a way to make one model for all looks: If you do it in reverse. 
