@@ -32,11 +32,11 @@ For further experimentation you can use the 128pixel network that processes the 
 
 Although the training times are ok and often not many Epochs are needed, it is a bit suboptimal that you need to prepare the training data for every look. But there is a way to make one model for all looks: If you do it in reverse. 
 
-I have already begun to train a model (neutral.h5) that removes any look from the footage. By reversing input and output in the pix2LUT algorithm the result is a LUT that gives the neutralized footage the look. So once you apply the LUT on your (neutralized) footage, it will have the same look. It is important to mention that due to a lack of time I did not train this model well. But feel free to do better: As ground truth you need to take neutral footage, either from your own stock or e.g. TV news. Then you apply random LUTs/presets/gradings in order to generate the input files. With these pairs you can train the network above. 
+I have already begun to train a model (neutral.h5) that removes any look from the footage. By reversing input and output in the model_img2LUT algorithm the result is a LUT that gives the neutralized footage the look. So once you apply the LUT on your (neutralized) footage, it will have the same look. It is important to mention that due to a lack of time I did not train this model well. But feel free to do better: As ground truth you need to take neutral footage, either from your own stock or e.g. TV news. Then you apply random LUTs/presets/gradings in order to generate the input files. With these pairs you can train the network above. 
 
 The downside is the problem that every preset or LUTs have: the LUT is not optimized for your footage. So the LUT is only for the look, but not for the correction. It might be a bit better if you apply the neutralize model also on your input footage in order to correct it to the same neutral basis. However if you have colors in your footage that were not present in the reference footage it might not help. 
 
-If you have trained your model to neutralize looks, you need to set reverse = True in the pix2LUT notebook. (for those who are new to python: True needs to be written with capital "T") 
+If you have trained your model to neutralize looks, you need to set reverse = True in the model_img2LUT notebook. (for those who are new to python: True needs to be written with capital "T") 
 # Create training data
 - In order to train the model you need to prepare the training data as it was done in the original pix2pix paper. The model gets trained by showing it the image how it should be color graded (the "ground truth") and the input that should be color graded. These images are combined together beside each other in one image, while the ground truth in on the left and the input is on the right. If you use the network with the reduced input size of 64 pixel, belows sizes would be sufficient. However you may also upload higher resolution images since they get resized in the code. A sample image could be found in the "generate training data" folder.
 
@@ -100,7 +100,7 @@ If you have trained your model to neutralize looks, you need to set reverse = Tr
   <img width="717" height="454" src="https://github.com/ajcommercial/AI_color_grade_lut/blob/master/screenshots/training_done.JPG?raw=true">
 </p>
 
-- Open the Notebook pix2LUT (like you did with the other notebook)
+- Open the Notebook model_img2LUT (like you did with the other notebook)
 - Upload the model and the image you would like to grade (for download procedure see above)
 - Start the program (like above "run all")
 - Wait until you see the generated .cube file in the content folder
