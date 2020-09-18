@@ -30,7 +30,8 @@ For further experimentation you can use the 128pixel network that processes the 
 
 # Pix2LUT
 
-I have also created a discriminator and a generator network in the gan structure that are taking (256x256 pixels) as input and are returning directly a color LUT (8^3*3; 1D). This is work in progress and experimental. For training use the same images as you would upload to pix2pix or to batch_pix2lut. Just put all LUTs generated with the batch-notebook in the train images and the test images (you don't need to split it, just put all in both folders - not very nice, but it is work in progress) and upload them zipped into the colab. During training instead of output images the notebook displays the reduced mean difference between the generated LUTs and the ground truth LUTs 
+I have also created a discriminator and a generator network in the gan structure that are taking (256x256 pixels) as input and are returning directly a color LUT (8^3*3; 1D). This is work in progress and experimental. For training use the same images as you would upload to pix2pix or to batch_pix2lut. Just put all LUTs generated with the batch-notebook in the train images and the test images (you don't need to split it, just put all in both folders - not very nice, but it is work in progress) and upload them zipped into the colab. During training instead of output images the notebook displays the reduced mean difference between the generated LUTs and the ground truth LUTs.
+Currently only the generator is trained, not the discriminator (wip)
 
 # One model that can generate any look
 
