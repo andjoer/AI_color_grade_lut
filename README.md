@@ -31,7 +31,12 @@ For further experimentation you can use the 128pixel network that processes the 
 # Pix2LUT
 
 I have also created a discriminator and a generator network in the gan structure that are taking (256x256 pixels) as input and are returning directly a color LUT (8^3*3; 1D). This is work in progress and experimental. For training use the same images as you would upload to pix2pix or to batch_pix2lut. Just put all LUTs generated with the batch-notebook in the train images and the test images (you don't need to split it, just put all in both folders - not very nice, but it is work in progress) and upload them zipped into the colab. During training instead of output images the notebook displays the reduced mean difference between the generated LUTs and the ground truth LUTs.
-Currently only the generator is trained, not the discriminator (wip)
+
+In order to get a feeling if the output result is good you have to consider: The input images are 8bit, so basially they have a tollerance of +- 0.002. One solution would be to create a "mean" LUT, like a neutral LUT that does nothing. The mean difference between most of the LUTs and this standard LUT is around 0.12. Below you may see the training results. 
+
+<p align="center">
+  <img width="600" height="600" src="https://github.com/ajcommercial/AI_color_grade_lut/blob/master/screenshots/gan_loss.jpg?raw=true">
+</p>
 
 # One model that can generate any look
 
