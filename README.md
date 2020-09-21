@@ -28,15 +28,20 @@ That is why I decided to make the network smaller and take 64x64x3 images. The d
 
 For further experimentation you can use the 128pixel network that processes the images width 128*128 pixels. Maybe you are wondering if it is a good idea to make it asymmetrical so that the network gets more information but produces only the few color samples that are needed to produce the LUT. I have enclosed a notebook for this as well - it works, but you actually don't save much. 
 
+# Pix2LUT
+
+I have also created a discriminator and a generator network in the gan structure that are taking (256x256 pixels) as input and are returning directly a color LUT (8^3*3; 1D). This is work in progress and experimental. For training use the same images as you would upload to pix2pix or to batch_pix2lut. Just put all LUTs generated with the batch-notebook in the train images and the test images (you don't need to split it, just put all in both folders - not very nice, but it is work in progress) and upload them zipped into the colab. During training instead of output images the notebook displays the reduced mean difference between the generated LUTs and the ground truth LUTs.
+Currently only the generator is trained, not the discriminator (wip)
+
 # One model that can generate any look
 
 Although the training times are ok and often not many Epochs are needed, it is a bit suboptimal that you need to prepare the training data for every look. But there is a way to make one model for all looks: If you do it in reverse. 
 
-I have already begun to train a model (neutral.h5) that removes any look from the footage. By reversing input and output in the pix2LUT algorithm the result is a LUT that gives the neutralized footage the look. So once you apply the LUT on your (neutralized) footage, it will have the same look. It is important to mention that due to a lack of time I did not train this model well. But feel free to do better: As ground truth you need to take neutral footage, either from your own stock or e.g. TV news. Then you apply random LUTs/presets/gradings in order to generate the input files. With these pairs you can train the network above. 
+I have already begun to train a model (neutral.h5) that removes any look from the footage. By reversing input and output in the model_img2LUT algorithm the result is a LUT that gives the neutralized footage the look. So once you apply the LUT on your (neutralized) footage, it will have the same look. It is important to mention that due to a lack of time I did not train this model well. But feel free to do better: As ground truth you need to take neutral footage, either from your own stock or e.g. TV news. Then you apply random LUTs/presets/gradings in order to generate the input files. With these pairs you can train the network above. 
 
 The downside is the problem that every preset or LUTs have: the LUT is not optimized for your footage. So the LUT is only for the look, but not for the correction. It might be a bit better if you apply the neutralize model also on your input footage in order to correct it to the same neutral basis. However if you have colors in your footage that were not present in the reference footage it might not help. 
 
-If you have trained your model to neutralize looks, you need to set reverse = True in the pix2LUT notebook. (for those who are new to python: True needs to be written with capital "T") 
+If you have trained your model to neutralize looks, you need to set reverse = True in the model_img2LUT notebook. (for those who are new to python: True needs to be written with capital "T") 
 # Create training data
 - In order to train the model you need to prepare the training data as it was done in the original pix2pix paper. The model gets trained by showing it the image how it should be color graded (the "ground truth") and the input that should be color graded. These images are combined together beside each other in one image, while the ground truth in on the left and the input is on the right. If you use the network with the reduced input size of 64 pixel, belows sizes would be sufficient. However you may also upload higher resolution images since they get resized in the code. A sample image could be found in the "generate training data" folder.
 
@@ -100,7 +105,7 @@ If you have trained your model to neutralize looks, you need to set reverse = Tr
   <img width="717" height="454" src="https://github.com/ajcommercial/AI_color_grade_lut/blob/master/screenshots/training_done.JPG?raw=true">
 </p>
 
-- Open the Notebook pix2LUT (like you did with the other notebook)
+- Open the Notebook model_img2LUT (like you did with the other notebook)
 - Upload the model and the image you would like to grade (for download procedure see above)
 - Start the program (like above "run all")
 - Wait until you see the generated .cube file in the content folder
