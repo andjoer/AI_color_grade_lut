@@ -38,6 +38,8 @@ In order to get a feeling if the output result is good you have to consider: The
   <img width="600" height="600" src="https://github.com/ajcommercial/AI_color_grade_lut/blob/master/screenshots/gan_loss.jpg?raw=true">
 </p>
 
+Since a 3D LUT can be interpreted not only as just target points but also as 3 channel correction values on a nxnxn grid, I tried to remain the hourglass shape of the generator and deconvolute the result-vector of the convolutions in 3D (plut 3 channel) space. It works, but so far I did not observe an advantage. 
+
 # One model that can generate any look
 
 Although the training times are ok and often not many Epochs are needed, it is a bit suboptimal that you need to prepare the training data for every look. But there is a way to make one model for all looks: If you do it in reverse. 
