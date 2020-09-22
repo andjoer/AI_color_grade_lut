@@ -16,7 +16,7 @@ The scope of this repository is
 - demonstrate how to use a model that produces low fidelity images (low resolution and artefacts) to get a high fidelity, production ready output
 - enable people who never saw code to experiment and train their own models since the code does not need to be toched
 
-# Algorithm
+## Algorithm
 
 Color lookup tables are lists of triplets that can be interpreted as n x n x n x 3 matrices, in other words, it contains n^3 coordinates of color values. Through interpolation they represent an function R^3 to R^3 that is mapping intput colors to output colors. That's why it is possible to represent any (primary) colorcorrection with a single LUT file. 
 
@@ -46,7 +46,7 @@ In the next image an actual application of the generated LUT is displayed. The n
 
 Since a 3D LUT can be interpreted not only as just target points but also as 3 channel correction values on a nxnxn grid, I tried to remain the hourglass shape of the generator and deconvolute the result-vector of the convolutions in 3D (plut 3 channel) space. It works, but so far I did not observe an advantage. 
 
-# One model that can generate any look
+## One model that can generate any look
 
 Although the training times are ok and often not many Epochs are needed, it is a bit suboptimal that you need to prepare the training data for every look. But there is a way to make one model for all looks: If you do it in reverse. 
 
@@ -56,13 +56,13 @@ The downside is the problem that every preset or LUTs have: the LUT is not optim
 
 If you have trained your model to neutralize looks, you need to set reverse = True in the model_img2LUT notebook. (for those who are new to python: True needs to be written with capital "T") 
 
-# Conclusion 
+## Conclusion 
 
 It is easy to apply existing AI algorithms for color correction/grading. With the pix2LUT GAN a method is demonstrated that generates a list of data from an image. For simplicity reasons this algorithm creates easy to read LUTs. However it should be no problem to replace this lists with lists of slider positions of any color correcting software. If it is possible (which in most cases is possible) that the slider positions of two consecutive corrections can be cumulated by an algorithm to one position, any look can be achived with one trained model that neutralizes any look. 
 
-## User guide
+# User guide
 
-# Create training data
+## Create training data
 - In order to train the model you need to prepare the training data as it was done in the original pix2pix paper. The model gets trained by showing it the image how it should be color graded (the "ground truth") and the input that should be color graded. These images are combined together beside each other in one image, while the ground truth in on the left and the input is on the right. If you use the network with the reduced input size of 64 pixel, belows sizes would be sufficient. However you may also upload higher resolution images since they get resized in the code. A sample image could be found in the "generate training data" folder.
 
 <p align="center">
@@ -86,14 +86,14 @@ It is easy to apply existing AI algorithms for color correction/grading. With th
 
 - finally the complete folder (above named "example") needs to be zipped. 
 
-# Train the model and generate the LUT
+## Train the model and generate the LUT
 
 - Upload the training data into the 64pix2pix notebook and start the training
 - Download the model
 - Upload the model and the image that should be trained into the pix2LUT notebook
 - Generate and download the LUT
 
-# Below is a user guide for people who are absolutly new to using Jupyter notebooks and Google Colab
+## Below is a user guide for people who are absolutly new to using Jupyter notebooks and Google Colab
 
 - go to the Notebook you would like to use (for training 64pix2pix or 128pix2pix) and open in Colab
 
