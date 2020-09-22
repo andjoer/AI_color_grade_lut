@@ -38,6 +38,12 @@ In order to get a feeling if the output result is good you have to consider: The
   <img width="600" height="600" src="https://github.com/ajcommercial/AI_color_grade_lut/blob/master/screenshots/gan_loss.jpg?raw=true">
 </p>
 
+In the next image an actual application of the generated LUT is displayed. The network is trained on the look of Game of Thrones S8 E2. The images are blurred in order to avoid copyright issues. As you could see, the skinn tones are slightly too saturated and too yellow. The explanation is that in the same scene the skin of Daenerys Targaryen has this skin tone in the close-up shots. This is an in general observable behaviour: If there are more looks within the training data, the model selects one that matches the input the best. 
+
+<p align="center">
+  <img width="600" height="600" src="https://github.com/ajcommercial/AI_color_grade_lut/blob/master/screenshots/Result_pix2LUT.jpg?raw=true">
+</p>
+
 Since a 3D LUT can be interpreted not only as just target points but also as 3 channel correction values on a nxnxn grid, I tried to remain the hourglass shape of the generator and deconvolute the result-vector of the convolutions in 3D (plut 3 channel) space. It works, but so far I did not observe an advantage. 
 
 # One model that can generate any look
@@ -49,6 +55,13 @@ I have already begun to train a model (neutral.h5) that removes any look from th
 The downside is the problem that every preset or LUTs have: the LUT is not optimized for your footage. So the LUT is only for the look, but not for the correction. It might be a bit better if you apply the neutralize model also on your input footage in order to correct it to the same neutral basis. However if you have colors in your footage that were not present in the reference footage it might not help. 
 
 If you have trained your model to neutralize looks, you need to set reverse = True in the model_img2LUT notebook. (for those who are new to python: True needs to be written with capital "T") 
+
+# Conclusion 
+
+It is easy to apply existing AI algorithms for color correction/grading. With the pix2LUT GAN a method is demonstrated that generates a list of data from an image. For simplicity reasons this algorithm creates easy to read LUTs. However it should be no problem to replace this lists with lists of slider positions of any color correcting software. If it is possible (which in most cases is possible) that the slider positions of two consecutive corrections can be cumulated by an algorithm to one position, any look can be achived with one trained model that neutralizes any look. 
+
+## User guide
+
 # Create training data
 - In order to train the model you need to prepare the training data as it was done in the original pix2pix paper. The model gets trained by showing it the image how it should be color graded (the "ground truth") and the input that should be color graded. These images are combined together beside each other in one image, while the ground truth in on the left and the input is on the right. If you use the network with the reduced input size of 64 pixel, belows sizes would be sufficient. However you may also upload higher resolution images since they get resized in the code. A sample image could be found in the "generate training data" folder.
 
